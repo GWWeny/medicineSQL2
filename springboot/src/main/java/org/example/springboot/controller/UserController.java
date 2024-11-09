@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.example.springboot.common.Solve;
+import org.example.springboot.config.AuthAccess;
 import org.example.springboot.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +13,7 @@ import org.example.springboot.entity.User;
 
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -51,6 +53,7 @@ public class UserController {
         }
     }
 
+    @AuthAccess
     @GetMapping("/getAllUser")
     public Solve getAllUser(){
         List<User> users=userService.list(new QueryWrapper<User>().orderByDesc("id"));
@@ -60,6 +63,7 @@ public class UserController {
         return Solve.success(users);
     }
 
+    @AuthAccess
     @GetMapping("/getUserById/{id}")
     public Solve getUserById(@PathVariable Integer id){
         User user=userService.getById(id);
@@ -88,5 +92,30 @@ public class UserController {
         System.out.println(userPage);
 
         return Solve.success(userPage);
+    }
+
+    @PutMapping("/updateUserById")
+    public Solve updateUserById(/*@PathVariable("id") int id,*/@RequestBody User user) {
+        /*user.setId(id);
+        User updateUser = userService.updateUser(user);
+        if(updateUser!=null){
+            return Solve.success(updateUser);
+        }
+        return Solve.error("更新失败");*/
+        userService.updateById(user);
+        return Solve.success("更新成功");
+    }
+
+    @PutMapping("/reorder")
+    public Solve reorderUsers(@RequestBody List<User> users) {
+        // 遍历用户列表并更新用户编号
+        for (int i = 0; i < users.size(); i++) {
+            User user = users.get(i);
+            // 设置新的用户编号，假设从 1 开始
+            user.setId(i + 1);
+            // 更新用户信息
+            userService.updateById(user);
+        }
+        return Solve.success("用户编号重新排序成功");
     }
 }

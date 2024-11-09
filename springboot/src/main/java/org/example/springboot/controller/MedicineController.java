@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/medicine")
 public class MedicineController {
@@ -94,6 +95,7 @@ public class MedicineController {
         }
         return Solve.success(medicines);
     }
+
 
     //自由查询药品信息
     @GetMapping("/search")

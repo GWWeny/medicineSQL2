@@ -5,8 +5,10 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.example.springboot.entity.User;
 import org.example.springboot.exception.serviceException;
 import org.example.springboot.mapper.UserMapper;
+import org.example.springboot.utils.TokenUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UserService extends ServiceImpl<UserMapper, User> {
@@ -33,8 +35,8 @@ public class UserService extends ServiceImpl<UserMapper, User> {
         if(!exisitingtUser.getPassword().equals(user.getPassword())){
             throw new serviceException("密码错误");
         }
-        //String token =TokenUtils.createToken(String.valueOf(user1.getId()),user1.getPassword());
-        //user1.setToken(token);
+        String token = TokenUtils.createToken(String.valueOf(exisitingtUser.getId()));
+        exisitingtUser.setToken(token);
         return exisitingtUser;
     }
 
@@ -45,5 +47,23 @@ public class UserService extends ServiceImpl<UserMapper, User> {
         }
         userMapper.insert(user);
         return user;
+    }
+
+    @Transactional
+    public User updateUser(User user)
+    {
+        User existingUser=userMapper.selectUserByUsername(user.getUsername());
+        if(existingUser !=null){
+            if(user.getUsername()!=null){
+                existingUser.setUsername(user.getUsername());
+            }
+            if(user.getPassword()!=null){
+                existingUser.setPassword(user.getPassword());
+            }
+
+            int rowsUpdated=userMapper.update(existingUser);
+            return rowsUpdated > 0 ? existingUser: null;
+        }
+        return null;
     }
 }

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/client")
 public class ClientController {
@@ -101,6 +102,7 @@ public class ClientController {
         }
     }
 
+
     //自由查询顾客信息
     @GetMapping("/search")
     public Solve searchClients(@RequestParam(required = false)Integer cno, String cname, String csex, String cage, String cphone, String caddress, String csymptom, String cdate, String cremark) {
@@ -123,5 +125,18 @@ public class ClientController {
         }else{
             return Solve.error("未找到客户进行更新");
         }
+    }
+
+    @PutMapping("/reorder")
+    public Solve reorderClients(@RequestBody List<Client> clients) {
+        // 遍历顾客列表并更新顾客编号
+        for (int i = 0; i < clients.size(); i++) {
+            Client client = clients.get(i);
+            // 设置新的顾客编号，假设从 1 开始
+            client.setCno(i + 1);
+            // 更新顾客信息
+            clientService.updateById(client);
+        }
+        return Solve.success("顾客编号重新排序成功");
     }
 }

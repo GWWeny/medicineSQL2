@@ -8,6 +8,7 @@ import org.example.springboot.mapper.ClientMapper;
 import javax.annotation.Resource;
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/agency")
 public class AgencyController {
@@ -112,5 +113,18 @@ public class AgencyController {
         }else{
             return Solve.failure("未找到经办人信息进行修改");
         }
+    }
+
+    @PutMapping("/reorder")
+    public Solve reorderagencys(@RequestBody List<Agency> agencys){
+        // 遍历经办人列表并更新经办人编号
+        for (int i = 0; i < agencys.size(); i++) {
+            Agency agency = agencys.get(i);
+            // 设置新的经办人编号，假设从 1 开始
+            agency.setAno(i + 1);
+            // 更新经办人信息
+            agencyService.updateById(agency);
+        }
+        return Solve.success("经办人编号重新排序成功");
     }
 }

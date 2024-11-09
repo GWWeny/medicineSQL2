@@ -2,8 +2,6 @@ package org.example.springboot.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import jdk.management.resource.internal.inst.SocketOutputStreamRMHooks;
-import org.example.springboot.common.Solve;
 import org.example.springboot.mapper.ClientMapper;
 import org.example.springboot.mapper.MedicineMapper;
 import org.springframework.beans.factory.annotation.Autowired;
