@@ -1,5 +1,6 @@
 package org.example.springboot.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.example.springboot.common.Solve;
 import org.example.springboot.entity.Medicine;
 import org.example.springboot.mapper.ClientMapper;
@@ -89,11 +90,13 @@ public class MedicineController {
     //找寻所有药品,也就是信息浏览
     @GetMapping("/findAll")
     public Solve findAll(){
-        List<Medicine> medicines = medicineService.findAll();
-        if(medicines==null ||medicines.isEmpty()){
-            return Solve.error("药品列表为空");
-        }
+        List<Medicine> medicines = medicineService.list(new QueryWrapper<Medicine>().orderByDesc("mno"));
         return Solve.success(medicines);
+        //List<Medicine> medicines = medicineService.findAll();
+        //if(medicines==null ||medicines.isEmpty()){
+            //return Solve.error("药品列表为空");
+        //}
+        //return Solve.success(medicines);
     }
 
 

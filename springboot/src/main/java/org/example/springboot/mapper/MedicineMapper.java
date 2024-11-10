@@ -11,6 +11,9 @@ public interface MedicineMapper extends BaseMapper<Medicine> {
     @Select("select * from medicine where mno = #{mno}")
     Medicine selectMedicineByMno(Integer mno);
 
+    @Select("select * from medicine")
+    List<Medicine> findAllMedicine();
+
     @Delete("<script>" +
             "DELETE FROM medicine WHERE mno IN " +
             "<foreach item='mno' collection='list' open='(' separator=',' close=')'>" +

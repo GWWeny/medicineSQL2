@@ -26,7 +26,7 @@ public class MedicineService extends ServiceImpl<MedicineMapper, Medicine>{
 
     //获得所有medicine对象
     public List<Medicine> findAll(){
-        return medicineMapper.selectList(null);
+        return medicineMapper.findAllMedicine();
     }
 
     //对外提供根据mno获取medicine方法
