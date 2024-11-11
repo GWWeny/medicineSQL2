@@ -8,24 +8,12 @@
             <el-input v-model="user.username" prefix-icon="el-icon-former" size="medium"></el-input>
           </el-form-item>
 
-          <el-form-item label="密码" prop="password">
-            <el-input
-                :type="isPasswordVisible ? 'text' : 'password'"
-                prefix-icon="el-icon-lock"
-                v-model="user.password"
-                :append="passwordEyeIcon"
-                @click:append="togglePasswordVisibility"
-            ></el-input>
+          <el-form-item label="密码"  prop="请输入密码">
+            <el-input prefix-icon="el-icon-lock" show-password prop="" v-model="user.password"></el-input>
           </el-form-item>
 
-          <el-form-item label="确认密码" prop="confirmPassword">
-            <el-input
-                :type="isPasswordVisible ? 'text' : 'password'"
-                prefix-icon="el-icon-lock"
-                v-model="user.confirmPassword"
-                :append="passwordEyeIcon"
-                @click:append="togglePasswordVisibility"
-            ></el-input>
+          <el-form-item label="确认密码" show-password prop="confirmPassword">
+            <el-input prefix-icon="el-icon-lock" show-password prop="" v-model="user.confirmPassword"></el-input>
           </el-form-item>
 
           <el-form-item prop="role">
@@ -54,7 +42,7 @@
 
 <script>
 export default {
-  name: "UserRegister",
+  name: "Register",
   data() {
     return {
       options:[
@@ -67,19 +55,15 @@ export default {
         confirmPassword: '',
         role:'',
       },
-      isPasswordVisible: false, // 控制密码显示/隐藏
-      passwordEyeIcon: 'el-icon-view', // 默认眼睛图标
       rules: {
         username: [
           {required: true, message: '请输入用户名', trigger: 'blur'},
         ],
         password: [
-          {required: true, message: '请输入密码', trigger: 'blur'},
-          {min: 6, message: '密码至少6位', trigger: 'blur'},
+          {required: true, validator:this.validateOldPassword, trigger: 'blur'},
         ],
         confirmPassword: [
-          {required: true, message: '请确认密码', trigger: 'blur'},
-          {validator: this.validateConfirmPassword, trigger: 'blur'},
+          {required: true, validator: this.validateConfirmPassword, trigger: 'blur'},
         ],
         role: [
           {required: true, message: '请选择您的身份', trigger: 'change'},
@@ -89,20 +73,31 @@ export default {
   },
   methods: {
     validateConfirmPassword(rule, value, callback) {
-      if (value !== this.user.password) {
+      if(value === ''){
+        callback(new Error('请输入密码'))
+      }else if(value !== this.user.password){
         callback(new Error('密码不一致'));
-      } else if(value===''){
-        callback(new Error('请再次输入密码'))
+      }else{
+        callback();
+      }
+    },
+    validateOldPassword(rule, value, callback) {
+      if(value === ''){
+        callback(new Error('请输入密码'))
       }else{
         callback();
       }
     },
     register() {
+      console.log("被点击了");
+      console.log("用户数据:", this.user);
       this.$refs["registerForm"].validate((valid) => {
+        console.log("表单验证结果:", valid);
         if (valid) {
           // 将注册信息发送到后端
           this.$request.post("/register", this.user).then(res => {
-            if (res.code === "200") {
+            console.log("服务器响应:", res);
+            if (res.data.code === '200') {
               this.$message.success("注册成功");
               this.$router.push("/login"); // 注册成功后跳转到登录页面
             } else {
@@ -114,15 +109,11 @@ export default {
         }
       });
     },
-    togglePasswordVisibility() {
-      this.isPasswordVisible = !this.isPasswordVisible; // 切换密码显示/隐藏
-      this.passwordEyeIcon = this.isPasswordVisible ? 'el-icon-view' : 'el-icon-view-off'; // 更换眼睛图标
-    }
   }
 }
 </script>
 
-<style scoped>
+<style>
 .register-container {
   height: 100vh;
   background-color: #f0f2f5;

@@ -14,8 +14,8 @@ public class InterceptorConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(jwtInterceptor())
-                .addPathPatterns("/**")
-                .excludePathPatterns("/login", "/register");
+                .addPathPatterns("/**")//拦截路径
+                .excludePathPatterns("/login", "/register");//公开路径
     }
 
     //通过Bean注解，容器自动创建并管理这个拦截器

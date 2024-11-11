@@ -1,6 +1,12 @@
 import Vue from 'vue'//导入 Vue 构造函数，这是 Vue.js 的核心库
 import VueRouter from 'vue-router'//用于处理应用中的路由（即不同 URL 映射到不同的组件）
 
+const originPush = VueRouter.prototype.push
+VueRouter.prototype.push = function push(location) {
+    return originPush.call(this, location).catch(err => err)
+}
+
+
 //使用 Vue.use() 方法安装 Vue Router 插件。这使得 Vue 实例可以使用路由功能，
 // 包括页面跳转、路由嵌套等。VueRouter 是通过这个方法全局安装的
 Vue.use(VueRouter)
@@ -22,9 +28,9 @@ const routes = [
         component: () => import('@/components/Manager.vue'),
         children: [
             {path: 'home', name: 'Home', meta: {title: '首页'}, component: () => import('@/components/action/Home.vue')},
-            {path: '403', name: 'Auth', meta: {title: '无权限'}, component: () => import('@/components/action/403.vue')},
-            {path: 'password', name: 'password', meta: {title: '修改密码'}, component: () => import('@/components/action/Password.vue')},
-
+            {path: '403', name: '403', meta: {title: '无权限'}, component: () => import('@/components/action/403.vue')},
+            {path: 'password', name: 'Password', meta: {title: '修改密码'}, component: () => import('@/components/action/Password.vue')},
+            {path: '/user', name: 'User', meta: {title: '用户管理'}, component: () => import('@/components/action/User.vue')},
         ]
     },
     {path: '*', name: '404', meta: {title: '404'}, component: () => import('@/components/action/404.vue')},
@@ -39,7 +45,7 @@ const router=new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-    let adminPaths = ['/user'];
+    let adminPaths = [];
     let localStorageUser = JSON.parse(localStorage.getItem('user') || '{}');
 
     if (localStorageUser.role !== 'admin' && adminPaths.includes(to.path)) {

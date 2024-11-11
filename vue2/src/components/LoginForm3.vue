@@ -38,7 +38,7 @@
 import CodeUpdate from "@/components/CodeUpdate.vue";
 
 export default {
-  name: "Login",
+  name: "LoginForm3",
   components: {
     CodeUpdate,
   },

@@ -1,4 +1,3 @@
-<!--
 <template>
   <div class="forbidden-page">
     <div class="message-container">
@@ -92,4 +91,3 @@ export default {
   }
 }
 </style>
--->

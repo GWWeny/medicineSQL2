@@ -103,7 +103,7 @@ public class UserController {
         }
         return Solve.error("更新失败");*/
         userService.updateById(user);
-        return Solve.success("更新成功");
+        return Solve.success(user);
     }
 
     @PutMapping("/reorder")

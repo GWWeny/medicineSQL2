@@ -55,23 +55,22 @@ export default {
   name: "ChangePassword",
   data() {
     return {
-      user:[],
-      oldPassword: "",   // 从后端获取的旧密码
-      loading: false,     // 控制按钮状态
       form: {
-        oldPassword: "",   // 旧密码
-        newPassword: "",   // 新密码
-        confirmPassword: "" // 确认密码
+        oldPassword: '',   // 旧密码
+        newPassword: '',   // 新密码
+        confirmPassword: '' // 确认密码
       },
+      oldPassword: '',   // 从后端获取的旧密码
+      loading: false,     // 控制按钮状态
       rules: {
         oldPassword: [
-          { required: true, validator: this.validateOldPassword, trigger: 'blur' },
+          {required: true, validator: this.validateOldPassword, trigger: 'blur'},
         ],
         newPassword: [
-          { required: true, message: '请输入新密码', trigger: 'blur' },
+          {required: true, message: '请输入新密码', trigger: 'blur'},
         ],
         confirmPassword: [
-          { required: true,validator: this.validateConfirmPassword, trigger: 'blur' },
+          {required: true, validator: this.validateConfirmPassword, trigger: 'blur'},
         ]
       }
     };
@@ -97,39 +96,42 @@ export default {
 
     // 提交表单
     submitForm() {
-      console.log("提交表单",this.form);
-      this.user.data.password=this.form.newPassword;
-      console.log("用户1", this.user.data);
+      console.log("提交表单", this.form);
+      this.user.password = this.form.newPassword;
       delete this.user.email;
+      console.log("修改密码", this.user);
 
-      console.log("用户666", this.user.data);
+      this.user = JSON.parse(localStorage.getItem("localStorageUser") || "{}");
+      console.log("用户666", this.user);
 
-          console.log("用户777",this.user.data);
+      this.$refs.changePasswordForm.validate((valid) => {
+        if (valid) {
+          console.log("用户777", this.user.data);
           this.$request.put("/user/updateUserById", this.user.data).then(res => {
-            console.log("修改密码2",res)
+            console.log("修改密码2", res)
             if (res.data.code === "200") {
-              //this.$router.push("/login");
+              this.$router.push("/login");
               this.$message.success("修改密码成功");
             } else {
               this.$message.error(res.msg);
             }
           })
+        }
+      });
     }
   },
   mounted() {
     // 获取用户信息，加载旧密码
     this.user = JSON.parse(localStorage.getItem("localStorageUser") || "{}");
-    delete this.user.data.password;
-    console.log("用户1", this.user.data);
+    console.log("用户1", this.user);
     request.get(`/user/getUserById/${this.user.data.id}`).then(res => {
-      console.log("用户2", res.data.data);
+      console.log("用户2", res.data);
       this.token = res.data.data.token;
       console.log("token", this.token);
       this.oldPassword = res.data.data.password;
       console.log("密码", this.oldPassword);
     });
   }
-  //接口的token密钥认证问题，会导致接口无法连接上，从而无法实现操作
 }
 </script>
 

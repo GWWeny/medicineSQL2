@@ -27,6 +27,10 @@ public class UserService extends ServiceImpl<UserMapper, User> {
         return userMapper.selectUserByUsername(username);
     }
 
+    public User selectUserById(Integer id){
+        return userMapper.selectUserById(id);
+    }
+
     public User login(User user){
         User exisitingtUser = getUserByUsername(user.getUsername());
         if(exisitingtUser==null){

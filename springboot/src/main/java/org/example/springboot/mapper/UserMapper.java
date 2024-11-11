@@ -10,6 +10,9 @@ public interface UserMapper extends BaseMapper<User> {
     @Select("select * from user where username=#{username}")
     User selectUserByUsername(String username);
 
-    @Update("update user set username = #{username}, password = #{password}, name = #{name} ,phone=#{phone},email=#{eamil},address=#{address} WHERE id = #{id}")
+    @Select("select * from user where id=#{id}")
+    User selectUserById(Integer id);
+
+    @Update("update user set username = #{username}, password = #{password}, name = #{name} ,phone=#{phone},email=#{eamil},address=#{address},token=#{token} WHERE id = #{id}")
     int update(User user);
 }
