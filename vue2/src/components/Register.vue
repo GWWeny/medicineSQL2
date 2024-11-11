@@ -8,40 +8,24 @@
             <el-input v-model="user.username" prefix-icon="el-icon-former" size="medium"></el-input>
           </el-form-item>
 
-          <!-- 密码输入框，切换显示/隐藏 -->
           <el-form-item label="密码" prop="password">
             <el-input
-                :type="isPasswordVisible ? 'text' : 'password'"  <!-- 控制密码输入框显示或隐藏 -->
-            v-model="user.password"
-            prefix-icon="el-icon-lock"
-            :suffix-icon="isPasswordVisible ? 'el-icon-view-off' : 'el-icon-view'"  <!-- 小眼睛图标，根据 isPasswordVisible 显示不同的图标 -->
-            >
-            <!-- 使用 slot 插槽放置自定义的眼睛图标 -->
-            <template #suffix>
-              <i
-                  :class="isPasswordVisible ? 'el-icon-view-off' : 'el-icon-view'"
-                  @click="togglePasswordVisibility"  <!-- 点击图标切换密码显示状态 -->
-              ></i>
-            </template>
-            </el-input>
+                :type="isPasswordVisible ? 'text' : 'password'"
+                prefix-icon="el-icon-lock"
+                v-model="user.password"
+                :append="passwordEyeIcon"
+                @click:append="togglePasswordVisibility"
+            ></el-input>
           </el-form-item>
 
-          <!-- 确认密码输入框，切换显示/隐藏 -->
           <el-form-item label="确认密码" prop="confirmPassword">
             <el-input
-                :type="isPasswordVisible ? 'text' : 'password'"  <!-- 控制密码输入框显示或隐藏 -->
-            v-model="user.confirmPassword"
-            prefix-icon="el-icon-lock"
-            :suffix-icon="isPasswordVisible ? 'el-icon-view-off' : 'el-icon-view'"  <!-- 小眼睛图标，根据 isPasswordVisible 显示不同的图标 -->
-            >
-            <!-- 使用 slot 插槽放置自定义的眼睛图标 -->
-            <template #suffix>
-              <i
-                  :class="isPasswordVisible ? 'el-icon-view-off' : 'el-icon-view'"
-                  @click="togglePasswordVisibility"  <!-- 点击图标切换密码显示状态 -->
-              ></i>
-            </template>
-            </el-input>
+                :type="isPasswordVisible ? 'text' : 'password'"
+                prefix-icon="el-icon-lock"
+                v-model="user.confirmPassword"
+                :append="passwordEyeIcon"
+                @click:append="togglePasswordVisibility"
+            ></el-input>
           </el-form-item>
 
           <el-form-item prop="role">
@@ -73,54 +57,46 @@ export default {
   name: "UserRegister",
   data() {
     return {
-      options: [
-        { value: 'admin', label: 'admin' },
-        { value: 'user', label: 'user' },
+      options:[
+        {value:'admin',label:'admin'},
+        {value:'user',label:'user'},
       ],
       user: {
         username: '',
         password: '',
         confirmPassword: '',
-        role: '',
+        role:'',
       },
-      isPasswordVisible: false,  // 控制密码输入框的显示/隐藏
+      isPasswordVisible: false, // 控制密码显示/隐藏
+      passwordEyeIcon: 'el-icon-view', // 默认眼睛图标
       rules: {
         username: [
-          { required: true, message: '请输入用户名', trigger: 'blur' },
+          {required: true, message: '请输入用户名', trigger: 'blur'},
         ],
         password: [
-          { required: true, message: '请输入密码', trigger: 'blur' },
-          { min: 6, message: '密码至少6位', trigger: 'blur' },
+          {required: true, message: '请输入密码', trigger: 'blur'},
+          {min: 6, message: '密码至少6位', trigger: 'blur'},
         ],
         confirmPassword: [
-          { required: true, message: '请确认密码', trigger: 'blur' },
-          { validator: this.validateConfirmPassword, trigger: 'blur' },
+          {required: true, message: '请确认密码', trigger: 'blur'},
+          {validator: this.validateConfirmPassword, trigger: 'blur'},
         ],
         role: [
-          { required: true, message: '请选择您的身份', trigger: 'change' },
+          {required: true, message: '请选择您的身份', trigger: 'change'},
         ],
       },
     };
   },
   methods: {
-    // 确认密码校验
     validateConfirmPassword(rule, value, callback) {
       if (value !== this.user.password) {
         callback(new Error('密码不一致'));
-      } else if (value === '') {
+      } else if(value===''){
         callback(new Error('请再次输入密码'))
-      } else {
+      }else{
         callback();
       }
     },
-
-    // 切换密码显示与隐藏
-    togglePasswordVisibility() {
-      console.log("被点击了");
-      this.isPasswordVisible = !this.isPasswordVisible;  // 切换状态
-    },
-
-    // 注册功能
     register() {
       this.$refs["registerForm"].validate((valid) => {
         if (valid) {
@@ -137,6 +113,10 @@ export default {
           });
         }
       });
+    },
+    togglePasswordVisibility() {
+      this.isPasswordVisible = !this.isPasswordVisible; // 切换密码显示/隐藏
+      this.passwordEyeIcon = this.isPasswordVisible ? 'el-icon-view' : 'el-icon-view-off'; // 更换眼睛图标
     }
   }
 }

@@ -1,3 +1,4 @@
+<!--
 <template>
   <div class="page-404">
     <div class="error-content">
@@ -81,3 +82,4 @@ export default {
   }
 }
 </style>
+-->

@@ -13,7 +13,7 @@ public class Solve {
     //无法改变
     public static final String CODE_SUCCESS = "200";
     public static final String CODE_AUTH_ERROR = "401";
-    public static final String CODE_SYS_ERROR = "500";
+    public static final String CODE_SYS_ERROR = "404";
 
     private String code;
     private String msg;

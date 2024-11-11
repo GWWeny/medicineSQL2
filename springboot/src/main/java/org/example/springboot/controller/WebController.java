@@ -25,8 +25,8 @@ public class WebController {
     @AuthAccess
     @PostMapping("/login")
     public Solve login(@RequestBody User user) {
-        if (StrUtil.isBlank(user.getUsername()) || StrUtil.isBlank(user.getPassword())){
-            return Solve.failure("用户名或密码不能为空");
+        if (user==null || StrUtil.isBlank(user.getUsername()) || StrUtil.isBlank(user.getPassword())){
+            return Solve.error("用户名或密码不能为空");
         }
         user = userService.login(user);
         return Solve.success(user);

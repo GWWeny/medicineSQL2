@@ -1,10 +1,10 @@
-<template>
+<!--<template>
   <div class="change-password-container">
     <div class="change-password-box">
       <el-form :model="form" :rules="rules" ref="changePasswordForm" class="change-password-form">
         <div class="form-title">修改密码</div>
 
-        <!-- 旧密码 -->
+
         <el-form-item label="旧密码" prop="oldPassword">
           <el-input
               type="password"
@@ -15,7 +15,7 @@
           ></el-input>
         </el-form-item>
 
-        <!-- 新密码 -->
+
         <el-form-item label="新密码" prop="newPassword">
           <el-input
               type="password"
@@ -26,7 +26,7 @@
           ></el-input>
         </el-form-item>
 
-        <!-- 确认新密码 -->
+
         <el-form-item label="确认新密码" prop="confirmPassword">
           <el-input
               type="password"
@@ -37,7 +37,7 @@
           ></el-input>
         </el-form-item>
 
-        <!-- 提交按钮 -->
+
         <el-form-item>
           <el-button class="submit-button" type="primary" @click="submitForm" :disabled="loading">
             {{ loading ? '正在提交...' : '提交' }}
