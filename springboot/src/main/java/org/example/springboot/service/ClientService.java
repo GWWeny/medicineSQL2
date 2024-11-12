@@ -122,4 +122,8 @@ public class ClientService extends ServiceImpl<ClientMapper, Client> {
         }
         return clientMapper.selectList(queryWrapper);
     }
+
+    public boolean existsByCno(Integer cno) {
+        return clientMapper.countByMno(cno) > 0;
+    }
 }

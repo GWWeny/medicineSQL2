@@ -21,6 +21,9 @@ public class ClientController {
     //添加新客户
     @RequestMapping("/add")
     public Solve addClient(@RequestBody Client client) {
+        if (clientService.existsByCno(client.getCno())) {
+            return Solve.failure("顾客编号已存在");
+        }
         if(client.getCname()==null || client.getCname().isEmpty()){
             return Solve.failure("客户姓名不能为空");
         }
@@ -56,7 +59,7 @@ public class ClientController {
         if(clientService.save(client)){
             return Solve.success(client);
         }else{
-            return Solve.error("添加客户失败");
+            return Solve.failure("添加客户失败");
         }
     }
 
@@ -66,7 +69,7 @@ public class ClientController {
         if(clientService.deleteClient(cno)){
             return Solve.success("客户"+cno+"已删除成功");
         }else{
-            return Solve.error("删除客户失败");
+            return Solve.failure("删除客户失败");
         }
     }
 
@@ -87,7 +90,7 @@ public class ClientController {
         if(client!=null){
             return Solve.success(client);
         }else{
-            return Solve.error("客户编号不存在");
+            return Solve.failure("客户编号不存在");
         }
     }
 
@@ -98,7 +101,7 @@ public class ClientController {
         if(clients!=null){
             return Solve.success(clients);
         }else{
-            return Solve.error("客户列表为空");
+            return Solve.failure("客户列表为空");
         }
     }
 
@@ -110,7 +113,7 @@ public class ClientController {
         if(clients!=null){
             return Solve.success(clients);
         }else{
-            return Solve.error("未找到符合条件的客户信息");
+            return Solve.failure("未找到符合条件的客户信息");
         }
     }
 
@@ -123,7 +126,7 @@ public class ClientController {
         if(updateClient!=null){
             return Solve.success(updateClient);
         }else{
-            return Solve.error("未找到客户进行更新");
+            return Solve.failure("未找到客户进行更新");
         }
     }
 

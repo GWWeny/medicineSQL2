@@ -108,7 +108,7 @@ export default {
           this.$request.put("/user/updateUserById", this.user.data).then(res => {
             console.log("修改密码2",res)
             if (res.data.code === "200") {
-              //this.$router.push("/login");
+              this.$router.push("/login");
               this.$message.success("修改密码成功");
             } else {
               this.$message.error(res.msg);
@@ -163,6 +163,9 @@ export default {
   width: 100%;
   font-size: 16px;
   margin-top: 20px;
+}
+.submit-button:hover {
+  background-color: #26a69a;
 }
 
 .el-form-item label {

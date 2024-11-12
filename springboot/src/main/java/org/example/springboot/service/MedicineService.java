@@ -96,4 +96,7 @@ public class MedicineService extends ServiceImpl<MedicineMapper, Medicine>{
         return medicineMapper.selectList(queryWrapper);
     }
 
+    public boolean existsByMno(Integer mno) {
+        return medicineMapper.countByMno(mno) > 0;
+    }
 }

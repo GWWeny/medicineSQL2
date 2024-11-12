@@ -104,9 +104,7 @@ public class AgencyService extends ServiceImpl<AgencyMapper, Agency> {
         // 返回结果
         return agencyMapper.selectList(queryWrapper);
     }
-
-    public boolean existsByAno(Integer ano){
-        Agency agency = agencyMapper.selectAgencyByAno(ano);
-        return agency != null;
+    public boolean existsByAno(Integer ano) {
+        return agencyMapper.countByMno(ano) > 0;
     }
 }

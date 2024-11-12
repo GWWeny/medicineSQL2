@@ -28,6 +28,7 @@ const routes = [
         component: () => import('@/components/Manager.vue'),
         children: [
             {path: 'home', name: 'Home', meta: {title: '首页'}, component: () => import('@/components/action/Home.vue')},
+            {path:'medicine', name: 'Medicine', meta: {title: '药品管理'}, component: () => import('@/components/action/Medicine.vue')},
             {path: '403', name: '403', meta: {title: '无权限'}, component: () => import('@/components/action/403.vue')},
             {path: 'password', name: 'Password', meta: {title: '修改密码'}, component: () => import('@/components/action/Password.vue')},
             {path: '/user', name: 'User', meta: {title: '用户管理'}, component: () => import('@/components/action/User.vue')},

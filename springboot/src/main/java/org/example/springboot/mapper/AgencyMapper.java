@@ -26,4 +26,7 @@ public interface AgencyMapper extends BaseMapper<Agency> {
 
     @Update("update agency set aname = #{aname}, asex = #{asex}, aphone = #{aphone}, aremark = #{aremark}WHERE ano = #{ano}")
     int update(Agency agency);
+
+    @Select("SELECT COUNT(*) FROM medicine WHERE ano = #{ano}")
+    int countByMno(Integer ano);
 }

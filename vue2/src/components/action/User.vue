@@ -65,6 +65,9 @@
   text-align: center;
   margin-top: 20px;
 }
+.form-footer:hover {
+  background-color: #26a69a;
+}
 
 .el-button {
   background-color: #409eff;

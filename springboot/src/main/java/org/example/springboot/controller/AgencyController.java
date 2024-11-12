@@ -20,22 +20,25 @@ public class AgencyController {
     //添加新经办人，信息录入
     @RequestMapping("/add")
     public Solve addAgency(@RequestBody Agency agency){
+        if (agencyService.existsByAno(agency.getAno())) {
+            return Solve.failure("经办人编号已存在");
+        }
         if(agency.getAname()==null || agency.getAname().isEmpty()){
-            return Solve.error("经办人姓名不能为空");
+            return Solve.failure("经办人姓名不能为空");
         }
         if(agency.getAsex()==null || agency.getAsex().isEmpty()){
-            return Solve.error("经办人性别不能为空");
+            return Solve.failure("经办人性别不能为空");
         }
         if(agency.getAphone()==null || agency.getAphone().isEmpty()){
-            return Solve.error("经办人联系方式不能为空");
+            return Solve.failure("经办人联系方式不能为空");
         }
         if(!agency.getAsex().equals("男") && !agency.getAsex().equals("女")){
-            return Solve.error("经办人性别只能为男或女");
+            return Solve.failure("经办人性别只能为男或女");
         }
         if(agencyService.save(agency)){
             return Solve.success(agency);
         }else{
-            return Solve.error("添加经办人失败");
+            return Solve.failure("添加经办人失败");
         }
     }
 
@@ -51,7 +54,7 @@ public class AgencyController {
             if (agencyService.deleteAgency(ano)) {
                 return Solve.success("经办人编号" + ano + "删除成功");
             } else {
-                return Solve.error("经办人编号" + ano + "删除失败");
+                return Solve.failure("经办人编号" + ano + "删除失败");
             }
         }
     }
@@ -87,7 +90,7 @@ public class AgencyController {
     public Solve findAll() {
         List<Agency> agencies = agencyService.findAll();
         if(agencies==null || agencies.isEmpty()){
-            return Solve.error("经办人列表为空");
+            return Solve.failure("经办人列表为空");
         }
         return Solve.success(agencies);
     }
@@ -97,7 +100,7 @@ public class AgencyController {
     public Solve searchAgency(@RequestParam(required = false)Integer ano, String aname, String asex, String aphone,String aremark) {
         List<Agency> agencies = agencyService.searchAgency(ano, aname, asex, aphone, aremark);
         if(agencies==null || agencies.isEmpty()){
-            return Solve.error("经办人列表为空");
+            return Solve.failure("经办人列表为空");
         }
             return Solve.success(agencies);
     }

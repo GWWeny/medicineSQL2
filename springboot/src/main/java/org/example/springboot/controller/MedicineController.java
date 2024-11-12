@@ -21,6 +21,10 @@ public class MedicineController {
     @RequestMapping("/add")
     public Solve addMedicine(@RequestBody Medicine medicine){
         //检查数据完整性与有效性
+        //如果药品编号已存在,就报错
+        if (medicineService.existsByMno(medicine.getMno())) {
+            return Solve.failure("药品编号已存在");
+        }
         if(medicine.getMname()==null || medicine.getMname().isEmpty()){
             return Solve.failure("药品名称不能为空");
         }
@@ -30,13 +34,13 @@ public class MedicineController {
         if(medicine.getMefficacy()==null || medicine.getMefficacy().isEmpty()){
             return Solve.failure("药品功效不能为空");
         }
-        if(!medicine.getMefficacy().equals("内服") && !medicine.getMefficacy().equals("外用")){
+        if(!medicine.getMmode().equals("内服") && !medicine.getMmode().equals("外用")){
             return Solve.failure("药品使用方式只能为内服或外用");
         }
         if(medicineService.save(medicine)){
             return Solve.success(medicine);
         }else{
-            return Solve.error("添加药品失败");
+            return Solve.failure("添加药品失败");
         }
     }
 
@@ -55,7 +59,7 @@ public class MedicineController {
                 return Solve.success("药品编号"+mno+"已删除成功");
             }else{
 
-                return Solve.error("药品编号"+mno+"未找到");
+                return Solve.failure("药品编号"+mno+"未找到");
             }
         }
 
@@ -83,7 +87,7 @@ public class MedicineController {
         if(medicine != null){
             return Solve.success(medicine);
         }else{
-            return Solve.error("未找到该药品");
+            return Solve.failure("未找到该药品");
         }
     }
 
@@ -105,7 +109,7 @@ public class MedicineController {
     public Solve searchMedicines(@RequestParam(required = false)Integer mno, @RequestParam(required = false)String mname, @RequestParam(required = false)String mmode, @RequestParam(required = false)String mefficacy){
         List<Medicine> medicines=medicineService.searchMedicines(mno, mname, mmode, mefficacy);
         if(medicines==null || medicines.isEmpty()){
-            return Solve.error("未找到符合条件的药品信息");
+            return Solve.failure("未找到符合条件的药品信息");
         }
         return Solve.success(medicines);
     }
@@ -114,11 +118,16 @@ public class MedicineController {
     @PutMapping("/update/{mno}")
     public Solve updateMedicine(@PathVariable("mno") int mno,@RequestBody Medicine medicine){
         medicine.setMno(mno);
+        // 检查是否存在相同编号的药品，但排除当前药品本身
+        /*Medicine existingMedicine = medicineService.getMedicineByMno(mno); // 假设该方法用于根据编号查找药品
+        if (existingMedicine != null && existingMedicine.getMno() != medicine.getMno()) {
+            return Solve.failure("药品编号已存在");
+        }*/
         Medicine updatedMedicine = medicineService.updateMedicine(medicine);
         if(updatedMedicine != null){
             return Solve.success(updatedMedicine);
         }else{
-            return Solve.error("未找到药品进行更新");
+            return Solve.failure("未找到药品进行更新");
         }
     }
 

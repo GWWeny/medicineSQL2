@@ -27,4 +27,8 @@ public interface MedicineMapper extends BaseMapper<Medicine> {
 
     @Update("update medicine set mname = #{mname}, mmode = #{mmode}, mefficacy = #{mefficacy} WHERE mno = #{mno}")
     int update(Medicine medicine);
+
+    @Select("SELECT COUNT(*) FROM medicine WHERE mno = #{mno}")
+    int countByMno(Integer mno);
+
 }

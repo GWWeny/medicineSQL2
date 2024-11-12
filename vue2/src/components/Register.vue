@@ -155,6 +155,9 @@ export default {
 .register-button {
   width: 100%;
 }
+.register-button:hover {
+  background-color: #26a69a;
+}
 
 .footer-links {
   display: flex;

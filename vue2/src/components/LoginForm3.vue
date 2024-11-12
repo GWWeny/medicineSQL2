@@ -70,6 +70,8 @@ export default {
       console.log("用户数据:", this.user);
       this.$refs["loginForm"].validate((valid) => {
         console.log("表单验证结果:", valid);
+        console.log("this.CodeUpdate.toLowerCase()", this.CodeUpdate.toLowerCase());
+        console.log("this.user.code.toLowerCase()", this.user.code.toLowerCase());
         //判断验证码是否正确
         if(this.CodeUpdate.toLowerCase() !== this.user.code.toLowerCase()){
           this.$message.error("验证码错误，请重新输入");
