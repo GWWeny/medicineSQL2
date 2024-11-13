@@ -1,157 +1,101 @@
 <template>
   <el-container>
-    <!-- 左侧导航栏 -->
-    <el-aside width="250px" class="sidebar">
-      <el-menu :default-active="activeMenu" class="el-menu-vertical-demo" @select="handleMenuSelect">
-        <el-menu-item index="/home" @click="SystemHomePage">系统首页</el-menu-item>
-        <el-menu-item index="/medicine" @click="MedicineManagement">药品管理</el-menu-item>
-        <el-menu-item index="/agency" @click="TransactorManagement">经办人管理</el-menu-item>
-        <el-menu-item index="/client" @click="CustomerManagement">顾客管理</el-menu-item>
-        <el-menu-item index="/person" @click="PersonalHomePage">个人信息</el-menu-item>
-        <el-menu-item index="/password" @click="ChangePassword">修改密码</el-menu-item>
-        <el-menu-item index="exit" @click="GotoExit">退出系统</el-menu-item>
-      </el-menu>
-    </el-aside>
 
-    <!-- 主内容区域 -->
-    <el-container>
-      <el-header class="header">
-        <div class="header-title">
-          <span>欢迎使用医药管理系统</span>
-          <el-button @click="GotoExit" type="danger" class="exit-btn" icon="el-icon-power-off">退出</el-button>
-        </div>
-      </el-header>
+    <el-main>
+      <!-- 首页内容 -->
+      <el-row gutter="20" style="margin-top: 20px;">
+        <el-col :span="8">
+          <el-card class="box-card" :body-style="{ padding: '20px' }">
+            <div slot="header" class="clearfix">
+              <span>系统概览</span>
+            </div>
+            <div style="text-align: center;">
+              <el-button type="primary" @click="generatePDF">生成PDF</el-button>
+            </div>
+          </el-card>
+        </el-col>
+        <el-col :span="8">
+          <el-card class="box-card" :body-style="{ padding: '20px' }">
+            <div slot="header" class="clearfix">
+              <span>近期数据</span>
+            </div>
+            <div style="text-align: center;">
+              <el-button type="primary" @click="generatePDF">生成PDF</el-button>
+            </div>
+          </el-card>
+        </el-col>
+        <el-col :span="8">
+          <el-card class="box-card" :body-style="{ padding: '20px' }">
+            <div slot="header" class="clearfix">
+              <span>用户统计</span>
+            </div>
+            <div style="text-align: center;">
+              <el-button type="primary" @click="generatePDF">生成PDF</el-button>
+            </div>
+          </el-card>
+        </el-col>
+      </el-row>
 
-      <el-main>
-        <router-view></router-view> <!-- 动态加载页面 -->
-      </el-main>
-    </el-container>
+      <!-- 这里可以加入更多的内容块 -->
+    </el-main>
   </el-container>
 </template>
 
 <script>
-import router from "@/router";
-
+import html2pdf from 'html2pdf.js';
 export default {
-  name: 'ManagerView',
+  name: 'HomeView',
   data() {
     return {
-      user: JSON.parse(localStorage.getItem("localStorageUser") || '{}'),
-      activeMenu: this.$route.path, // 当前路由路径，菜单高亮
+      localStorageUser: JSON.parse(localStorage.getItem('localStorageUser') || '{}'),
     };
   },
-  watch: {
-    '$route.path': function (newPath) {
-      this.activeMenu = newPath;
-    },
-  },
   methods: {
-    handleMenuSelect(index) {
-      this.activeMenu = index;
-    },
-    GotoExit() {
-      this.$confirm('是否退出系统？', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning',
-      }).then(() => {
-        localStorage.removeItem("localStorageUser");
-        this.$router.push('/login');
-      }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: '已取消退出',
-        });
-      });
-    },
-    PersonalHomePage() {
-      this.$router.push('/user');
-    },
-    ChangePassword() {
-      this.$router.push('/password');
-    },
-    SystemHomePage() {
-      this.$router.push('/home');
-    },
-    MedicineManagement() {
-      this.$router.push('/medicine');
-    },
-    TransactorManagement() {
-      this.$router.push('/agency');
-    },
-    CustomerManagement() {
-      this.$router.push('/client');
-    },
-  },
+    // 生成PDF的函数
+    generatePDF() {
+      const element = document.getElementById('pdf-content'); // 获取需要生成PDF的HTML元素
+
+      // 配置pdf生成选项
+      const options = {
+        margin:       1,
+        filename:     'system_overview.pdf',
+        image:        { type: 'jpeg', quality: 0.98 },
+        html2canvas:  { dpi: 192, scale: 2 },
+        jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+      };
+
+      // 生成并下载PDF
+      html2pdf().from(element).set(options).save();
+    }
+  }
 };
 </script>
 
 <style scoped>
-/* 主容器 */
-.el-container {
-  height: 100vh;
-}
-
-/* 左侧导航栏 */
-.sidebar {
-  background-color: #34495e;
-  color: #fff;
-}
-
-.el-menu-vertical-demo {
-  width: 250px;
-  background-color: #34495e;
-  border-right: none;
+.el-header {
+  background-color: #26a69a;
+  color: white;
+  padding: 0 20px;
 }
 
 .el-menu-item {
   font-size: 16px;
-  color: #ecf0f1;
 }
 
-.el-menu-item.is-active {
-  background-color: #1abc9c;
-  color: #fff;
+.el-menu-item:hover {
+  background-color: #1890ff;
 }
 
-/* 顶部header */
-.header {
-  background-color: #2c3e50;
-  color: #fff;
-  padding: 10px 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.el-dropdown-menu {
+  background-color: #26a69a;
+  color: white;
 }
 
-.header-title {
-  font-size: 20px;
-  font-weight: bold;
+.box-card {
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
 }
 
-.exit-btn {
-  background-color: #e74c3c;
-  color: #fff;
-}
-
-/* 右侧主内容区域 */
-.el-main {
-  padding: 20px;
-  background-color: #ecf0f1;
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-/* 菜单项及按钮 */
 .el-button {
-  margin-top: 20px;
-}
-
-/* 页面小组件样式 */
-.el-header, .el-footer, .el-aside, .el-main {
-  background-color: #ecf0f1;
+  margin-top: 10px;
 }
 </style>

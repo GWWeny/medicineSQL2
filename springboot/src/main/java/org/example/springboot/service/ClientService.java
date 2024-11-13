@@ -2,6 +2,7 @@ package org.example.springboot.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.example.springboot.common.Solve;
 import org.example.springboot.mapper.ClientMapper;
 import org.example.springboot.mapper.MedicineMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -93,7 +94,7 @@ public class ClientService extends ServiceImpl<ClientMapper, Client> {
         QueryWrapper<Client> queryWrapper = new QueryWrapper<>();
         // 根据传入的参数添加查询条件
         // 返回结果
-        if(cno != null){
+        if(cno != null ){
             queryWrapper.eq("cno", cno);
         }
         if (cname != null && !cname.isEmpty()) {

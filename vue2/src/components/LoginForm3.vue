@@ -83,9 +83,9 @@ export default {
             console.log("服务器响应:", res);  // 打印返回的服务器响应
             if (res.data.code === "200") {
               this.$message.success("登录成功");
-              this.$router.push("/");
               localStorage.setItem("localStorageUser", JSON.stringify(res.data));
-              console.log("localStorageUser:", localStorage.getItem("localStorageUser"))
+              console.log("localStorageUser:", localStorage.getItem("localStorageUser"));
+              this.$router.push("/");
             }
           }).catch(error=>{
             this.$message.error("密码或用户名错误，请修改");

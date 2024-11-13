@@ -180,7 +180,7 @@ export default {
       request.get('/medicine/search',{params:arr})
           .then(response=>{
             const {code,msg}=response.data;
-            if(code==='500'){
+            if(code==='401'){
               this.$message.warning(msg);
               return;
             }

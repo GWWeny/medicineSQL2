@@ -65,9 +65,6 @@
   text-align: center;
   margin-top: 20px;
 }
-.form-footer:hover {
-  background-color: #26a69a;
-}
 
 .el-button {
   background-color: #409eff;
@@ -81,6 +78,7 @@
 .el-button:hover {
   background-color: #66b1ff;
   border-color: #66b1ff;
+  background-color: #26a69a;
 }
 </style>
 
@@ -100,6 +98,7 @@ export default {
           console.log("修改信息",res);
           console.log("3用户信息", res.data);
           this.$message.success("修改成功");
+          this.$router.push('/home');
         } else {
           this.$message.error(res.msg);
         }

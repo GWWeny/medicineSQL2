@@ -90,7 +90,7 @@ public class AgencyController {
     public Solve findAll() {
         List<Agency> agencies = agencyService.findAll();
         if(agencies==null || agencies.isEmpty()){
-            return Solve.failure("经办人列表为空");
+            return Solve.failure("未找到符合条件的经办人信息");
         }
         return Solve.success(agencies);
     }

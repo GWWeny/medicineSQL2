@@ -48,14 +48,43 @@ const router=new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-    let adminPaths = [];
-    let localStorageUser = JSON.parse(localStorage.getItem('user') || '{}');
+    const whiteList = ['/login', '/register', '/403', '/404']; // 白名单，不需要权限的页面
 
-    if (localStorageUser.role !== 'admin' && adminPaths.includes(to.path)) {
-        next('/403'); // 导航到 403 页面
-    } else {
-        next(); // 允许导航
+    // 获取存储的用户信息
+    const userStr = localStorage.getItem('localStorageUser');
+    const localStorageUser = userStr ? JSON.parse(userStr) : null;
+
+    // 如果 localStorageUser 为 null，直接跳转到登录页面
+    if (!localStorageUser) {
+        if (!whiteList.includes(to.path)) {
+            return next('/login'); // 没有用户信息，跳转到登录页
+        }
     }
+
+    // 获取 token 和过期时间，若没有则跳转到登录
+    const token = localStorageUser ? localStorageUser.data.token : null; // 获取 token
+    const expireTime = localStorageUser ? localStorageUser.data.expireTime : null; // 获取过期时间
+
+    // 如果访问的是需要身份验证的页面且没有 token
+    if (!token && !whiteList.includes(to.path)) {
+        return next('/login'); // 如果没有 token，强制跳转到登录页面
+    }
+
+    // 如果访问的是登录页面，且已经有 token（用户已经登录），跳转到首页
+    if (to.path === '/login' && token) {
+        return next('/home'); // 如果已经登录，直接跳转到首页
+    }
+
+    // 检查 token 是否过期
+    const currentTime = new Date().getTime();
+    if (token && expireTime && currentTime > expireTime) {
+        // 如果 token 过期，清除 localStorage 中的用户信息并跳转到登录页
+        localStorage.removeItem('localStorageUser');
+        return next('/login');
+    }
+
+    // 如果没有问题，正常访问
+    next();
 });
 
 

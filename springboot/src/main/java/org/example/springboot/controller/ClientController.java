@@ -110,10 +110,10 @@ public class ClientController {
     @GetMapping("/search")
     public Solve searchClients(@RequestParam(required = false)Integer cno, String cname, String csex, String cage, String cphone, String caddress, String csymptom, String cdate, String cremark,Integer mno,Integer ano) {
         List<Client> clients = clientService.searchClients(cno, cname, csex, cage, cphone, caddress, csymptom, cdate, cremark,mno,ano);
-        if(clients!=null){
-            return Solve.success(clients);
-        }else{
+        if(clients==null || clients.isEmpty()){
             return Solve.failure("未找到符合条件的客户信息");
+        }else{
+            return Solve.success(clients);
         }
     }
 
@@ -128,18 +128,5 @@ public class ClientController {
         }else{
             return Solve.failure("未找到客户进行更新");
         }
-    }
-
-    @PutMapping("/reorder")
-    public Solve reorderClients(@RequestBody List<Client> clients) {
-        // 遍历顾客列表并更新顾客编号
-        for (int i = 0; i < clients.size(); i++) {
-            Client client = clients.get(i);
-            // 设置新的顾客编号，假设从 1 开始
-            client.setCno(i + 1);
-            // 更新顾客信息
-            clientService.updateById(client);
-        }
-        return Solve.success("顾客编号重新排序成功");
     }
 }

@@ -110,8 +110,10 @@ public class MedicineController {
         List<Medicine> medicines=medicineService.searchMedicines(mno, mname, mmode, mefficacy);
         if(medicines==null || medicines.isEmpty()){
             return Solve.failure("未找到符合条件的药品信息");
+        }else{
+            return Solve.success(medicines);
         }
-        return Solve.success(medicines);
+
     }
 
     //信息修改
