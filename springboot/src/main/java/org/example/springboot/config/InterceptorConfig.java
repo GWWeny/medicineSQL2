@@ -1,4 +1,4 @@
-/*package org.example.springboot.config;
+package org.example.springboot.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,4 +23,4 @@ public class InterceptorConfig implements WebMvcConfigurer {
     public org.example.springboot.config.JwtInterCeptor jwtInterceptor() {
         return new org.example.springboot.config.JwtInterCeptor();
     }
-}*/
+}

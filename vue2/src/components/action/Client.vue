@@ -109,7 +109,7 @@
           <el-input v-model="newClient.csymptom" placeholder="请输入症状" ></el-input>
         </el-form-item>
         <el-form-item label="时间" prop="cdate" :rules="[{ required: true, message: '请输入时间', trigger: 'blur' }]">
-          <el-input v-model="newClient.cdate" placeholder="请输入时间" ></el-input>
+          <el-input v-model="newClient.cdate" placeholder="请输入时间如20241113" ></el-input>
         </el-form-item>
         <el-form-item label="备注" prop="cremark" :rules="[{ required: true, message: '请输入备注', trigger: 'blur' }]">
           <el-input v-model="newClient.cremark" placeholder="请输入备注" ></el-input>
@@ -164,7 +164,7 @@
           <el-input v-model="newClient.csymptom" placeholder="请输入症状" ></el-input>
         </el-form-item>
         <el-form-item label="时间" prop="cdate" >
-          <el-input v-model="newClient.cdate" placeholder="请输入时间" ></el-input>
+          <el-input v-model="newClient.cdate" placeholder="请输入时间20241113" ></el-input>
         </el-form-item>
         <el-form-item label="备注" prop="cremark" >
           <el-input v-model="newClient.cremark" placeholder="请输入备注" ></el-input>
@@ -236,8 +236,8 @@ export default {
           .then(response => {
             console.log('response.data.data:',response.data.data);
             if(response.data.code === "200"){
-              this.$message.success("获取药品数据成功");
-              console.log('获取药品数据:', response.msg);
+              this.$message.success("获取顾客数据成功");
+              console.log('获取顾客数据:', response.msg);
               this.clients = response.data.data.sort((a, b)=>a.cno-b.cno);
             }else{
               this.$message.warning("没有药品数据");
@@ -330,7 +330,7 @@ export default {
 
     // 删除药品
     deleteClient(client) {
-      this.$confirm('确认删除该药品?', '删除提示', {
+      this.$confirm('确认删除该顾客?', '删除提示', {
         type: 'warning'
       }).then(() => {
         this.$request.delete(`/client/delete/${client.cno}`)
@@ -357,10 +357,10 @@ export default {
     //批量删除药品
     DeleteBatchClient() {
       if(this.SelectionClients.length===0){
-        this.$message.warning("请选择要删除的药品");
+        this.$message.warning("请选择要删除的顾客");
         return;
       }
-      this.$confirm(`确认要删除选中的${this.SelectionClients.length}个药品？`,'删除提示',{
+      this.$confirm(`确认要删除选中的${this.SelectionClients.length}个顾客列表？`,'删除提示',{
         type:'warning'
       }).then(()=>{
         const clientCnos=this.SelectionClients.map(item=>item.cno);//获取选中药品的编号
@@ -409,6 +409,7 @@ export default {
                 this.$message.success('添加成功');
               });
         } else {
+          this.$message.error("输入信息格式错误");
           return false;
         }
       });

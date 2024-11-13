@@ -8,6 +8,7 @@ import org.example.springboot.service.ClientService;
 import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.regex.Pattern;
 
 @CrossOrigin
 @RestController
@@ -52,6 +53,11 @@ public class ClientController {
             return Solve.failure("客户经办人不能为空");
         }
 
+        // 验证日期格式
+        String datePattern = "^(\\d{4})(0[1-9]|1[0-2])([0-2][1-9]|3[0-1])$";
+        if (!Pattern.matches(datePattern, client.getCdate())) {
+            return Solve.failure("日期格式错误，必须为yyyyMMdd");
+        }
         boolean agencyExists=agencyService.existsByAno(client.getAno());
         if(!agencyExists){
             return Solve.failure("经办人编号不存在");

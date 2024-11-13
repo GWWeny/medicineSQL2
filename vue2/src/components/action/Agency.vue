@@ -165,7 +165,7 @@ export default {
           .then(response => {
             console.log('response.data.data:',response.data.data);
             if(response.data.code === "200"){
-              this.$message.success("获取药品数据成功");
+              this.$message.success("获取经办人数据成功");
               console.log('获取药品数据:', response.msg);
               this.agencys = response.data.data.sort((a, b)=>a.ano-b.ano);
             }else{
@@ -174,7 +174,7 @@ export default {
             }
 
           }).catch(error => {
-        this.$message.error("获取药品数据失败");
+        this.$message.error("获取经办人数据失败");
         this.agencys = [];
       });
     },
@@ -253,7 +253,7 @@ export default {
 
     // 删除药品
     deleteAgency(agency) {
-      this.$confirm('确认删除该药品?', '删除提示', {
+      this.$confirm('确认删除该经办人?', '删除提示', {
         type: 'warning'
       }).then(() => {
         this.$request.delete(`/agency/delete/${agency.ano}`)
@@ -280,10 +280,10 @@ export default {
     //批量删除药品
     DeleteBatchAgency() {
       if(this.SelectionAgencys.length===0){
-        this.$message.warning("请选择要删除的药品");
+        this.$message.warning("请选择要删除的经办人");
         return;
       }
-      this.$confirm(`确认要删除选中的${this.SelectionAgencys.length}个药品？`,'删除提示',{
+      this.$confirm(`确认要删除选中的${this.SelectionAgencys.length}个经办人列表？`,'删除提示',{
         type:'warning'
       }).then(()=>{
         const agencyAnos=this.SelectionAgencys.map(item=>item.ano);//获取选中药品的编号

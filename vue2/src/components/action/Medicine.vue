@@ -269,7 +269,7 @@ export default {
         this.$message.warning("请选择要删除的药品");
         return;
       }
-      this.$confirm(`确认要删除选中的${this.SelectionMedicines.length}个药品？`,'删除提示',{
+      this.$confirm(`确认要删除选中的${this.SelectionMedicines.length}个药品列表？`,'删除提示',{
         type:'warning'
       }).then(()=>{
         const medicineMnos=this.SelectionMedicines.map(item=>item.mno);//获取选中药品的编号
