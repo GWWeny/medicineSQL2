@@ -32,6 +32,8 @@ const routes = [
             {path: '403', name: '403', meta: {title: '无权限'}, component: () => import('@/components/action/403.vue')},
             {path: 'password', name: 'Password', meta: {title: '修改密码'}, component: () => import('@/components/action/Password.vue')},
             {path: '/user', name: 'User', meta: {title: '用户管理'}, component: () => import('@/components/action/User.vue')},
+            {path: 'agency',name: 'Agency', meta: {title: '经办人管理'}, component: () => import('@/components/action/Agency.vue')},
+            {path: 'client',name:'Client', meta: {title: '客户管理'},component: () => import('@/components/action/Client.vue')}
         ]
     },
     {path: '*', name: '404', meta: {title: '404'}, component: () => import('@/components/action/404.vue')},

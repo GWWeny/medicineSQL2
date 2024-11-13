@@ -108,8 +108,8 @@ public class ClientController {
 
     //自由查询顾客信息
     @GetMapping("/search")
-    public Solve searchClients(@RequestParam(required = false)Integer cno, String cname, String csex, String cage, String cphone, String caddress, String csymptom, String cdate, String cremark) {
-        List<Client> clients = clientService.searchClients(cno, cname, csex, cage, cphone, caddress, csymptom, cdate, cremark);
+    public Solve searchClients(@RequestParam(required = false)Integer cno, String cname, String csex, String cage, String cphone, String caddress, String csymptom, String cdate, String cremark,Integer mno,Integer ano) {
+        List<Client> clients = clientService.searchClients(cno, cname, csex, cage, cphone, caddress, csymptom, cdate, cremark,mno,ano);
         if(clients!=null){
             return Solve.success(clients);
         }else{

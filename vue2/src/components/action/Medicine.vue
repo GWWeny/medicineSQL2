@@ -50,7 +50,7 @@
 
     <!-- Add Medicine Dialog -->
     <el-dialog
-        title="添加药品"
+        title="添加药品信息"
         :visible.sync="dialogVisibleAdd"
         width="500px"
         @close="resetForm"
@@ -84,7 +84,7 @@
 
     <!-- Update Medicine Dialog -->
     <el-dialog
-        title="修改药品"
+        title="修改药品信息"
         :visible.sync="dialogVisibleUpdate"
         width="500px"
         @close="resetForm"

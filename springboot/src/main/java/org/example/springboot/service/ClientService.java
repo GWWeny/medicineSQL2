@@ -89,7 +89,7 @@ public class ClientService extends ServiceImpl<ClientMapper, Client> {
     }
 
     //根据多个条件搜索Client对象
-    public List<Client> searchClients(Integer cno, String cname, String csex, String cage, String cphone, String caddress, String csymptom, String cdate, String cremark){
+    public List<Client> searchClients(Integer cno, String cname, String csex, String cage, String cphone, String caddress, String csymptom, String cdate, String cremark,Integer mno,Integer ano){
         QueryWrapper<Client> queryWrapper = new QueryWrapper<>();
         // 根据传入的参数添加查询条件
         // 返回结果
@@ -120,10 +120,16 @@ public class ClientService extends ServiceImpl<ClientMapper, Client> {
         if (cremark != null && !cremark.isEmpty()) {
             queryWrapper.like("cremark", cremark);
         }
+        if (mno!=null){
+            queryWrapper.eq("mno", mno);
+        }
+        if (ano!=null){
+            queryWrapper.eq("ano", ano);
+        }
         return clientMapper.selectList(queryWrapper);
     }
 
     public boolean existsByCno(Integer cno) {
-        return clientMapper.countByMno(cno) > 0;
+        return clientMapper.countByCno(cno) > 0;
     }
 }

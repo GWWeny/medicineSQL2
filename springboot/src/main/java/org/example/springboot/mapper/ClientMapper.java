@@ -31,7 +31,7 @@ public interface ClientMapper extends BaseMapper<Client> {
     @Update("update client set cname = #{cname}, csex = #{csex}, cage = #{cage}, cphone = #{cphone},caddress = #{caddress}, csymptom = #{csymptom}, cdate = #{cdate}, cremark = #{cremark} WHERE cno = #{cno}")
     int update(Client client);
 
-    @Select("SELECT COUNT(*) FROM medicine WHERE cno = #{cno}")
-    int countByMno(Integer cno);
+    @Select("SELECT COUNT(*) FROM client WHERE cno = #{cno}")
+    int countByCno(Integer cno);
 
 }

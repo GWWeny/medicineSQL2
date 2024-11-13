@@ -96,7 +96,7 @@ public class AgencyService extends ServiceImpl<AgencyMapper, Agency> {
             queryWrapper.eq("asex", asex);
         }
         if(aphone!=null && !aphone.isEmpty()){
-            queryWrapper.eq("aphone", aphone);
+            queryWrapper.like("aphone", aphone);
         }
         if(aremark!=null && !aremark.isEmpty()){
             queryWrapper.like("aremark", aremark);
@@ -105,6 +105,6 @@ public class AgencyService extends ServiceImpl<AgencyMapper, Agency> {
         return agencyMapper.selectList(queryWrapper);
     }
     public boolean existsByAno(Integer ano) {
-        return agencyMapper.countByMno(ano) > 0;
+        return agencyMapper.countByAno(ano) > 0;
     }
 }

@@ -65,7 +65,7 @@ export default {
       });
     },
     PersonalHomePage() {
-      this.$router.push('/person');
+      this.$router.push('/user');
     },
     ChangePassword() {
       this.$router.push('/password');
