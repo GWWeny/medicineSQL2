@@ -152,7 +152,11 @@ export default {
           .then(response => {
             console.log('response.data.data:',response.data.data);
             if(response.data.code === "200"){
-              this.$message.success("获取药品数据成功");
+              this.$message({
+                message: "获取药品数据成功",
+                type: "success",
+                duration: 1000 // 显示时间为 1 秒
+              });
               console.log('获取药品数据:', response.msg);
               this.medicines = response.data.data.sort((a, b)=>a.mno-b.mno);
             }else{

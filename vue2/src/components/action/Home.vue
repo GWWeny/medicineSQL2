@@ -17,6 +17,18 @@
           </div>
         </el-card>
       </el-col>
+        <el-col :span="8">
+          <el-card class="box-card" :body-style="{ padding: '20px' }">
+            <div slot="header" class="clearfix">
+              <span>403，404入口</span>
+            </div>
+            <div style="text-align: center; display: flex; justify-content: center; gap: 20px;">
+              <!-- 使用flexbox水平排列按钮，并设置按钮之间的间隔 -->
+              <el-button @click="Goto403" type="primary" icon="el-icon-plus" style="margin-top: 20px;">403拜访</el-button>
+              <el-button @click="Goto404" type="primary" icon="el-icon-plus" style="margin-top: 20px;">404拜访</el-button>
+            </div>
+          </el-card>
+        </el-col>
       </el-row>
 
 
@@ -115,7 +127,11 @@ export default {
           .then(response => {
             console.log('response.data.data:',response.data.data);
             if(response.data.code === "200"){
-              this.$message.success("获取药品数据成功");
+              this.$message({
+                message: "获取药品数据成功",
+                type: "success",
+                duration: 1000 // 显示时间为 1 秒
+              });
               console.log('获取药品数据:', response.msg);
               this.medicines = response.data.data.sort((a, b)=>a.mno-b.mno);
             }else{
@@ -133,7 +149,11 @@ export default {
           .then(response => {
             console.log('response.data.data:',response.data.data);
             if(response.data.code === "200"){
-              this.$message.success("获取经办人数据成功");
+              this.$message({
+                message: "获取经办人数据成功",
+                type: "success",
+                duration: 1000 // 显示时间为 1 秒
+              });
               console.log('获取药品数据:', response.msg);
               this.agencys = response.data.data.sort((a, b)=>a.ano-b.ano);
             }else{
@@ -151,7 +171,11 @@ export default {
           .then(response => {
             console.log('response.data.data:',response.data.data);
             if(response.data.code === "200"){
-              this.$message.success("获取顾客数据成功");
+              this.$message({
+                message: "获取顾客数据成功",
+                type: "success",
+                duration: 1000 // 显示时间为 1 秒
+              });
               console.log('获取顾客数据:', response.msg);
               this.clients = response.data.data.sort((a, b)=>a.cno-b.cno);
             }else{
@@ -203,6 +227,12 @@ export default {
     openClientDialog(){
       this.dialogVisibleClient=true;
     },
+    Goto403(){
+      this.$router.push('/403');
+    },
+    Goto404(){
+      this.$router.push('/404');
+    }
   },
   mounted(){
     this.findMedicineAll();
@@ -213,30 +243,13 @@ export default {
 </script>
 
 <style scoped>
-.el-header {
-  background-color: #26a69a;
-  color: white;
-  padding: 0 20px;
-}
 
-.el-menu-item {
-  font-size: 16px;
-}
 
-.el-menu-item:hover {
-  background-color: #1890ff;
-}
 
-.el-dropdown-menu {
-  background-color: #26a69a;
-  color: white;
-}
 
 .box-card {
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
 }
 
-.el-button {
-  margin-top: 10px;
-}
+
 </style>

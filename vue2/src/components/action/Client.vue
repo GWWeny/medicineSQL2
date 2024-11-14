@@ -109,9 +109,15 @@
           <el-input v-model="newClient.csymptom" placeholder="请输入症状" ></el-input>
         </el-form-item>
         <el-form-item label="时间" prop="cdate" :rules="[{ required: true, message: '请输入时间', trigger: 'blur' }]">
-          <el-input v-model="newClient.cdate" placeholder="请输入时间如20241113" ></el-input>
+          <el-date-picker
+              v-model="newClient.cdate"
+              type="date"
+              placeholder="请选择日期"
+              format="yyyy-MM-dd"
+              value-format="yyyy-MM-dd"
+          ></el-date-picker>
         </el-form-item>
-        <el-form-item label="备注" prop="cremark" :rules="[{ required: true, message: '请输入备注', trigger: 'blur' }]">
+        <el-form-item label="备注" prop="cremark" :rules="[{ required: false, message: '请输入备注', trigger: 'blur' }]">
           <el-input v-model="newClient.cremark" placeholder="请输入备注" ></el-input>
         </el-form-item>
         <el-form-item label="已购药品" prop="mno" :rules="[{ required: true, message: '请输入已购药品编号', trigger: 'blur' }]">
@@ -164,7 +170,13 @@
           <el-input v-model="newClient.csymptom" placeholder="请输入症状" ></el-input>
         </el-form-item>
         <el-form-item label="时间" prop="cdate" >
-          <el-input v-model="newClient.cdate" placeholder="请输入时间20241113" ></el-input>
+          <el-date-picker
+              v-model="newClient.cdate"
+              type="date"
+              placeholder="请选择日期"
+              format="yyyy-MM-dd"
+              value-format="yyyy-MM-dd"
+          ></el-date-picker>
         </el-form-item>
         <el-form-item label="备注" prop="cremark" >
           <el-input v-model="newClient.cremark" placeholder="请输入备注" ></el-input>
@@ -236,7 +248,11 @@ export default {
           .then(response => {
             console.log('response.data.data:',response.data.data);
             if(response.data.code === "200"){
-              this.$message.success("获取顾客数据成功");
+              this.$message({
+                message: "获取顾客数据成功",
+                type: "success",
+                duration: 1000 // 显示时间为 1 秒
+              });
               console.log('获取顾客数据:', response.msg);
               this.clients = response.data.data.sort((a, b)=>a.cno-b.cno);
             }else{

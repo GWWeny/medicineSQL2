@@ -54,10 +54,10 @@ public class ClientController {
         }
 
         // 验证日期格式
-        String datePattern = "^(\\d{4})(0[1-9]|1[0-2])([0-2][1-9]|3[0-1])$";
+        /*String datePattern = "^(\\d{4})(0[1-9]|1[0-2])([0-2][1-9]|3[0-1])$";
         if (!Pattern.matches(datePattern, client.getCdate())) {
             return Solve.failure("日期格式错误，必须为yyyyMMdd");
-        }
+        }*/
         boolean agencyExists=agencyService.existsByAno(client.getAno());
         if(!agencyExists){
             return Solve.failure("经办人编号不存在");

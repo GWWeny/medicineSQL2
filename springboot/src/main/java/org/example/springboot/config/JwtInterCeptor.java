@@ -26,6 +26,7 @@ public class JwtInterCeptor implements HandlerInterceptor {
         if (StrUtil.isBlank(token)) {
             token = request.getParameter("token");
         }
+        System.out.println("接收到的 token：" + token);
 
         // 如果请求的方法不需要验证Token，则跳过
         if (handler instanceof HandlerMethod) {
