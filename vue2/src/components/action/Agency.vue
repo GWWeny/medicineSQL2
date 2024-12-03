@@ -48,7 +48,7 @@
         </el-table-column>
       </el-table>
 
-      <el-button v-if="isAdmin" @click="openAddDialog" type="success" icon="el-icon-plus" style="margin-top: 20px;">添加药品</el-button>
+      <el-button v-if="isAdmin" @click="openAddDialog" type="success" icon="el-icon-plus" style="margin-top: 20px;">添加经办人</el-button>
       <el-button v-if="isAdmin" @click="DeleteBatchAgency" style="margin-top: 40px;" >批量删除</el-button>
     </el-main>
 
@@ -170,10 +170,10 @@ export default {
                 type: "success",
                 duration: 1000 // 显示时间为 1 秒
               });
-              console.log('获取药品数据:', response.msg);
+              console.log('获取经办人数据:', response.msg);
               this.agencys = response.data.data.sort((a, b)=>a.ano-b.ano);
             }else{
-              this.$message.warning("没有药品数据");
+              this.$message.warning("没有经办人数据");
               this.agencys = [];
             }
 
@@ -352,11 +352,13 @@ export default {
   //挂载钩子，自动加载!
   mounted() {
 
+    this.findAll();  // 组件加载时默认查询所有药品
     // 假设管理员信息保存在本地存储中
     let user=JSON.parse(localStorage.getItem('localStorageUser') || '{}');
     this.isAdmin = user.data.role ==='admin';
     console.log('isAdmin:', this.isAdmin);  // 查看管理员权限是否正确设置
-    this.findAll();  // 组件加载时默认查询所有药品
+    console.log('localStorageUser', localStorage.getItem('localStorageUser'))
+
   }
 };
 </script>

@@ -26,7 +26,7 @@ public class Client {
     public String cphone;//电话
     public String caddress;//地址
     public String csymptom;//症状
-    public String cdate;//时间
+    public String cdate;//时间,
     public String cremark;//备注
 
     @TableField(fill= FieldFill.INSERT)

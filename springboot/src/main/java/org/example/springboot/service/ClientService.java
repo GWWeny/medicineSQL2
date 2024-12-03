@@ -83,6 +83,12 @@ public class ClientService extends ServiceImpl<ClientMapper, Client> {
             if(client.getCremark()!=null){
                 existingClient.setCremark(client.getCremark());
             }
+            if(client.getMno()!=null){
+                existingClient.setMno(client.getMno());
+            }
+            if(client.getAno()!=null){
+                existingClient.setAno(client.getAno());
+            }
             int rowsUpdated=clientMapper.update(existingClient);
             return rowsUpdated > 0 ? existingClient: null;
         }

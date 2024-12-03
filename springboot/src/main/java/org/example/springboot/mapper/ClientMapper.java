@@ -28,7 +28,7 @@ public interface ClientMapper extends BaseMapper<Client> {
     @Delete("delete from client where cno = #{cno}")
     void delete(Integer cno);
 
-    @Update("update client set cname = #{cname}, csex = #{csex}, cage = #{cage}, cphone = #{cphone},caddress = #{caddress}, csymptom = #{csymptom}, cdate = #{cdate}, cremark = #{cremark} WHERE cno = #{cno}")
+    @Update("update client set cname = #{cname}, csex = #{csex}, cage = #{cage}, cphone = #{cphone},caddress = #{caddress}, csymptom = #{csymptom}, cdate = #{cdate}, cremark = #{cremark},mno=#{mno},ano=#{ano} WHERE cno = #{cno}")
     int update(Client client);
 
     @Select("SELECT COUNT(*) FROM client WHERE cno = #{cno}")

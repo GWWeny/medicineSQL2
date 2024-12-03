@@ -67,16 +67,16 @@ public class JwtInterCeptor implements HandlerInterceptor {
             throw new serviceException("401", "Token已过期，请重新登录");
         }
 
-        // 角色验证，确保是管理员
-        if (!isAdmin(user)) {
+        // 角色验证，确保是管理员,但没用上，我在前端做了角色验证
+        /*if (!isAdmin(user)) {
             throw new serviceException("403", "权限不足");
-        }
+        }*/
 
         return true;
     }
 
     // 检查用户是否是管理员
-    private boolean isAdmin(User user) {
+    /*private boolean isAdmin(User user) {
         return "admin".equals(user.getRole());
-    }
+    }*/
 }

@@ -24,6 +24,7 @@ const routes = [
     },
     {
         path: '/',
+        redirect: '/home',
         name: 'Manager',
         component: () => import('@/components/Manager.vue'),
         children: [
@@ -62,8 +63,9 @@ router.beforeEach((to, from, next) => {
     }
 
     // 获取 token 和过期时间，若没有则跳转到登录
-    const token = localStorageUser ? localStorageUser.data.token : null; // 获取 token
-    const expireTime = localStorageUser ? localStorageUser.data.expireTime : null; // 获取过期时间
+    const token = localStorageUser?.data?.token; // 获取 token
+    const expireTime = localStorageUser?.data?.expireTime; // 获取过期时间
+    const role = localStorageUser ? localStorageUser.data.role : null;//获取身份信息
 
     // 如果访问的是需要身份验证的页面且没有 token
     if (!token && !whiteList.includes(to.path)) {
@@ -81,6 +83,10 @@ router.beforeEach((to, from, next) => {
         // 如果 token 过期，清除 localStorage 中的用户信息并跳转到登录页
         localStorage.removeItem('localStorageUser');
         return next('/login');
+    }
+
+    if(to.path === '/client' && role !== 'admin'){
+        return next('/403');
     }
 
     // 如果没有问题，正常访问
